@@ -5,19 +5,19 @@
 body, html {
   margin: 0;
   padding: 0;
-  width: 100%; /* Ensure the body and html span the full width */
-  background-color: #DFD3E3; /* Optional background for visualization */
+  width: 100%;
+  background-color: #DFD3E3;
 }
 
 header {
   display: flex;
-  justify-content: space-between; /* Separate left and right sections */
-  align-items: center; /* Center items vertically */
-  padding: 20px; /* Add padding inside the header */
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
 }
 
 header .left {
-  flex-grow: 1; /* Push the right side to the edge */
+  flex-grow: 1;
 }
 
 header a {
@@ -27,34 +27,35 @@ header a {
 
 header .right {
   display: flex;
-  gap: 15px; /* Add space between "Login" and "Register" */
+  gap: 15px;
 }
+
 .login {
   background-color: #D3D3D3;
-  display: flex; /* Center form horizontally and vertically */
+  display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100vh; /* Full viewport height */
+  min-height: 100vh;
   margin: 0;
 }
 
 .login form {
-  background: #fff; /* White background for the form */
+  background: #fff;
   padding: 30px;
-  border-radius: 8px; /* Rounded corners */
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   display: flex;
-  flex-direction: column; /* Stack items vertically */
-  gap: 15px; /* Space between form elements */
+  flex-direction: column;
+  gap: 15px;
   width: 100%;
-  max-width: 400px; /* Limit form width */
+  max-width: 500px;
 }
 
 .login input {
   width: 100%;
   padding: 10px;
   border: 1px solid #ccc;
-  border-radius: 5px; /* Rounded corners */
+  border-radius: 5px;
   font-size: 16px;
 }
 
@@ -62,7 +63,7 @@ header .right {
   width: 100%;
   padding: 10px;
   border: none;
-  background-color: #007BFF; /* Blue background */
+  background-color: #007BFF;
   color: white;
   font-size: 16px;
   font-weight: bold;
@@ -71,11 +72,18 @@ header .right {
 }
 
 .login button:hover {
-  background-color: #0056b3; /* Darker blue on hover */
+  background-color: #0056b3;
 }
 
 .login h1 {
   text-align: center;
-  margin: 0 0 15px; /* Space below the heading */
+  margin: 0 0 15px;
   font-size: 24px;
+}
+.login img{
+  display: flex;
+  align-items: center;
+  width: 100px;
+  height: 100px;
+  margin: 0 auto;
 }

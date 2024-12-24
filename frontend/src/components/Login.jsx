@@ -7,7 +7,10 @@ export default function Login() {
   return (
     <div className="login">
       <form>
-        <h1>Login</h1>
+        <h1>
+            <img src="profile.png" alt="" />
+            Login
+        </h1>
         {/* Email Input */}
         <input
           type="text"
