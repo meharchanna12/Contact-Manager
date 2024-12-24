@@ -11,7 +11,7 @@ export default function Header() {
 
       {/* Right-aligned content */}
       <nav className="right">
-        <Link to="home">Home</Link>
+        <Link to="home">About</Link>
         <Link to="login">Login</Link>
         <Link to="register">Register</Link>
       </nav>

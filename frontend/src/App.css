@@ -6,30 +6,49 @@ body, html {
   margin: 0;
   padding: 0;
   width: 100%;
-  background-color: #DFD3E3;
+  background-color: #F3F4F6;
 }
 
 header {
   display: flex;
   justify-content: space-between;
-  background-color: #20b2aa;
   align-items: center;
-  padding: 20px;
-}
-
-header .left {
-  flex-grow: 1;
+  padding: 15px 30px;
+  background-color: #1F2937;
+  color: #F9FAFB;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 header a {
   text-decoration: none;
-  color: #222;
+  color: #F9FAFB;
+  font-size: 16px;
+  transition: color 0.3s ease;
+}
+
+header a:hover {
+  color: #3B82F6;
+}
+
+header .left {
+  font-size: 20px;
+  font-weight: bold;
 }
 
 header .right {
   display: flex;
-  gap: 15px;
+  gap: 20px;
 }
+
+header .right a {
+  padding: 8px 12px;
+  border-radius: 4px;
+}
+
+header .right a:hover {
+  background-color: #374151;
+}
+
 
 .login {
   background-color: #D3D3D3;
