@@ -2,6 +2,10 @@ import React, { useState } from 'react';
 import './Profile.css';
 
 export default function Profile() {
+
+    const token = localStorage.getItem('token');
+    const user = JSON.parse(localStorage.getItem('user'));
+
     const [contact, setContact] = useState({
         name: '',
         email: '',
@@ -35,6 +39,11 @@ export default function Profile() {
             type: 'personal',
         });
     };
+
+    if (!token) {
+        alert('Please login to view this page');
+        return <Navigate to="/login" />;
+    }
 
     return (
         <div className="profile-container">
