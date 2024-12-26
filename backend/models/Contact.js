@@ -17,7 +17,8 @@ const contactSchema = new mongoose.Schema({
     type:{
         type:String,
         required:true
-    }
+    },
+    user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
 })
 const Contact = mongoose.model('Contact',contactSchema);
 export default Contact;

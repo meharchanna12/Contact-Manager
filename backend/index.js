@@ -35,7 +35,7 @@ function authenticateToken(req, res, next) {
         if (err) {
             return res.status(403).json({ message: "Unauthorized" });
         }
-        req.user = user;
+        req.user = { id: user.id, email: user.email };
         next();
     });
 }
@@ -73,7 +73,7 @@ app.post('/login', async (req, res) => {
         if (!passOk) {
             return res.status(400).json({ message: "Invalid password" });
         } else {
-            const token = jwt.sign({ email }, secret);
+            const token = jwt.sign({ id: userDoc._id, email }, secret);
             res.status(200).json({ token,
                 user: {
                     id: userDoc._id,
@@ -91,7 +91,7 @@ app.post('/login', async (req, res) => {
 app.post('/profile', authenticateToken, async (req, res) => {
     const { name, email, phone, type } = req.body;
     try {
-        const newContact = { name, email, phone, type };
+        const newContact = { name, email, phone, type, user: req.user.id };
         const contactDoc = await Contact.create(newContact);
         res.status(201).json(contactDoc);
     } catch (err) {
@@ -101,7 +101,7 @@ app.post('/profile', authenticateToken, async (req, res) => {
 
 app.get('/profile', authenticateToken, async (req, res) => {
     try {
-        const contacts = await Contact.find();
+        const contacts = await Contact.find({ user: req.user.id });
         res.status(200).json(contacts);
     } catch (err) {
         res.status(500).json({ error: err.message });

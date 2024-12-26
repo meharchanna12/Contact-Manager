@@ -1,15 +1,41 @@
 import React,{useState} from "react";
-
+import axios from "axios";
 export default function Register() {
 
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [contact, setContact] = useState("");
-
+    async function register(ev) {
+        ev.preventDefault();
+        if(!name || !email || !password || !contact){
+            alert("All fields are required");
+            return;
+        }
+        try{
+            const response = await axios.post("http://localhost:8000/register",{
+                name,
+                email,
+                password,
+                contact
+            });
+            console.log(response);
+            if(response.status >= 200 && response.status < 300){
+                alert("Registration successful");
+            }
+            else{
+                alert("Registration failed");
+            } 
+        }
+        catch (error) {
+            console.error("There was an error registering!", error);
+            alert("Registration failed");
+        }
+    
+    }
     return (
         <div className="login">
-            <form style={{margin:"20px"}}>
+            <form style={{margin:"20px"}} onSubmit={register}>
                 <h1>
                     <img src="verify.png" alt="" />
                     Register here!!

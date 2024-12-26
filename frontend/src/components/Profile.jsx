@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
+import { useEffect } from 'react';
+import { Navigate } from 'react-router-dom';
 import './Profile.css';
+import axios from 'axios';
 
 export default function Profile() {
 
@@ -20,8 +23,14 @@ export default function Profile() {
     const onChange = (e) =>
         setContact({ ...contact, [e.target.name]: e.target.value });
 
-    const onSubmit = (e) => {
+    const onSubmit = async (e) => {
         e.preventDefault();
+        await axios.post('http://localhost:8000/profile', contact, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+            withCredentials: true,
+        });
         setContacts([...contacts, contact]);
         setContact({
             name: '',
@@ -44,6 +53,28 @@ export default function Profile() {
         alert('Please login to view this page');
         return <Navigate to="/login" />;
     }
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        if (!token) {
+        alert("Please login to view this page");
+        return <Navigate to="/login" />;
+        }
+        axios.get('http://localhost:8000/profile', {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+            withCredentials: true,
+        })
+        .then((response)=>{
+            console.log(response);
+            if(response.status >= 200 && response.status < 300){
+                setContacts(Array.isArray(response.data) ? response.data : []);
+            }
+            else{
+                alert("Failed to fetch contacts");
+            }
+        })
+    },[token])
 
     return (
         <div className="profile-container">
@@ -122,6 +153,7 @@ export default function Profile() {
                             <p><strong>Email:</strong> {c.email}</p>
                             <p><strong>Phone:</strong> {c.phone}</p>
                             <p><strong>Type:</strong> {c.type}</p>
+                            <button className='edit-btn'>Edit</button>
                         </div>
                     ))}
                 </div>

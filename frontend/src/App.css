@@ -107,3 +107,10 @@ header .right a:hover {
   height: 100px;
   margin: 0 auto;
 }
+header img {
+  width: 24px;
+  height: 24px;
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 10px;
+}
