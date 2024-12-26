@@ -92,27 +92,24 @@
 .contact-card p {
     margin: 5px 0;
 }
-/* Edit button with a more subtle and smaller design */
 .edit-btn {
-    padding: 6px 12px;
-    background-color: #28a745; /* Green for 'edit' action */
+    width: 100%;
+    padding: 10px;
+    background-color: #ffc107;
     color: #fff;
-    font-size: 14px; /* Smaller font size */
-    font-weight: normal; /* Less bold */
-    border: 1px solid #28a745; /* Green border */
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
     border-radius: 5px;
     cursor: pointer;
-    transition: background-color 0.3s ease, border 0.3s ease;
     text-align: center;
     margin-top: 10px;
 }
 
 .edit-btn:hover {
-    background-color: #218838; /* Darker green on hover */
-    border: 1px solid #218838; /* Matching border on hover */
+    background-color: #e0a800;
 }
 
 .edit-btn:active {
-    background-color: #1e7e34; /* Even darker green on click */
-    border: 1px solid #1e7e34;
+    background-color: #d39e00;
 }
