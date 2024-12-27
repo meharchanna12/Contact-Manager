@@ -20,13 +20,13 @@ export default function Login() {
     setLoading(true);  
 
     try {
-      const response = await axios.post("http://localhost:8000/login", {
+      const response = await axios.post("http://localhost:8002/login", {
         email,
         password,
       }, { withCredentials: true });
 
       console.log(response); 
-      if (response.status === 200) {
+      if (response.status >= 200 && response.status < 300) {
         localStorage.setItem('token', response.data.token);
         localStorage.setItem('user', JSON.stringify(response.data.user));  
         console.log(response.data.user);

@@ -13,7 +13,7 @@ export default function Register() {
             return;
         }
         try{
-            const response = await axios.post("http://localhost:8000/register",{
+            const response = await axios.post("http://localhost:8002/register",{
                 name,
                 email,
                 password,

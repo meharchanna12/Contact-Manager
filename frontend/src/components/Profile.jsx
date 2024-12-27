@@ -8,7 +8,7 @@ export default function Profile() {
 
     const token = localStorage.getItem('token');
     const user = JSON.parse(localStorage.getItem('user'));
-
+    const [editing, setEditing] = useState("");
     const [contact, setContact] = useState({
         name: '',
         email: '',
@@ -25,7 +25,24 @@ export default function Profile() {
 
     const onSubmit = async (e) => {
         e.preventDefault();
-        await axios.post('http://localhost:8000/profile', contact, {
+
+        if (editing) {
+            const response = await axios.put(`http://localhost:8002/profile/${editing}`, contact, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+                withCredentials: true,
+            });
+            if(response.status >= 200 && response.status < 300){
+                setContacts(contacts.map((c) => c._id === editing ? contact : c));
+                setEditing("");
+            }
+            else{
+                alert("Failed to update contact");
+            }
+            return;
+        }
+        await axios.post('http://localhost:8002/profile', contact, {
             headers: {
                 Authorization: `Bearer ${token}`,
             },
@@ -59,7 +76,7 @@ export default function Profile() {
         alert("Please login to view this page");
         return <Navigate to="/login" />;
         }
-        axios.get('http://localhost:8000/profile', {
+        axios.get('http://localhost:8002/profile', {
             headers: {
                 Authorization: `Bearer ${token}`,
             },
@@ -75,7 +92,15 @@ export default function Profile() {
             }
         })
     },[token])
-
+    async function Edit(c){
+        setContact({
+            name: c.name,
+            email: c.email,
+            phone: c.phone,
+            type: c.type,
+        });
+        setEditing(c._id);
+    }
     return (
         <div className="profile-container">
             <form onSubmit={onSubmit} className="add-contact">
@@ -153,7 +178,7 @@ export default function Profile() {
                             <p><strong>Email:</strong> {c.email}</p>
                             <p><strong>Phone:</strong> {c.phone}</p>
                             <p><strong>Type:</strong> {c.type}</p>
-                            <button className='edit-btn'>Edit</button>
+                            <button className='edit-btn' onClick={()=>Edit(c)} >Edit</button>
                         </div>
                     ))}
                 </div>
