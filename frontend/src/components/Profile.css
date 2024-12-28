@@ -115,3 +115,25 @@
     background-color: #1e7e34; /* Even darker green on click */
     border: 1px solid #1e7e34;
 }
+.del-btn{
+    padding: 6px 12px;
+    background-color: #dc3545;
+    color: #fff;
+    font-size: 14px;
+    font-weight: normal;
+    border: 1px solid #dc3545;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, border 0.3s ease;
+    text-align: center;
+    margin-top: 10px;
+
+}
+.del-btn:hover {
+    background-color: #c82333;
+    border: 1px solid #c82333;
+}
+.del-btn:active {
+    background-color: #bd2130;
+    border: 1px solid #bd2130;
+}

@@ -25,37 +25,54 @@ export default function Profile() {
 
     const onSubmit = async (e) => {
         e.preventDefault();
-
+    
         if (editing) {
-            const response = await axios.put(`http://localhost:8002/profile/${editing}`, contact, {
+            try {
+                const response = await axios.put(`http://localhost:8002/profile/${editing}`, contact, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                    withCredentials: true,
+                });
+    
+                if (response.status >= 200 && response.status < 300) {
+                    setContacts(
+                        contacts.map((c) =>
+                            c._id === editing ? { ...response.data } : c
+                        )
+                    );
+                    setEditing("");
+                    clearAll();
+                } else {
+                    alert("Failed to update contact");
+                }
+            } catch (error) {
+                console.error("Edit error:", error.response?.data || error.message);
+                alert("Failed to edit contact");
+            }
+            return;
+        }
+    
+        try {
+            const response = await axios.post('http://localhost:8002/profile', contact, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
                 withCredentials: true,
             });
-            if(response.status >= 200 && response.status < 300){
-                setContacts(contacts.map((c) => c._id === editing ? contact : c));
-                setEditing("");
+    
+            if (response.status >= 200 && response.status < 300) {
+                setContacts([...contacts, response.data]);
+                clearAll();
+            } else {
+                alert("Failed to add contact");
             }
-            else{
-                alert("Failed to update contact");
-            }
-            return;
+        } catch (error) {
+            console.error("Add error:", error.response?.data || error.message);
+            alert("Failed to add contact");
         }
-        await axios.post('http://localhost:8002/profile', contact, {
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
-            withCredentials: true,
-        });
-        setContacts([...contacts, contact]);
-        setContact({
-            name: '',
-            email: '',
-            phone: '',
-            type: 'personal',
-        });
     };
+    
 
     const clearAll = () => {
         setContact({
@@ -101,11 +118,27 @@ export default function Profile() {
         });
         setEditing(c._id);
     }
+    async function Delete(c) {
+        try {
+            const response = await axios.delete(`http://localhost:8002/profile/${c._id}`, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('token')}`,
+                },
+                withCredentials: true,
+            });
+            if (response.status >= 200 && response.status < 300) {
+                setContacts(contacts.filter((contact) => contact._id !== c._id));
+            }
+        } catch (error) {
+            console.error("Delete error:", error.response?.data || error.message);
+            alert("Failed to delete contact");
+        }
+    }
+    
     return (
         <div className="profile-container">
             <form onSubmit={onSubmit} className="add-contact">
-                <h2>Add Contact</h2>
-
+            <h2>{editing ? "Edit Contact" : "Add Contact"}</h2>
                 <input
                     type="text"
                     placeholder="Name"
@@ -155,10 +188,12 @@ export default function Profile() {
                 </div>
 
                 <div>
-                    <input type="submit" value="Add Contact" className="btn" />
+                    {editing ? <input type="submit" value="Edit Contact" className="btn" />: <input type="submit" value="Add Contact" className="btn" />}
+                    
                 </div>
 
                 <div>
+                    
                     <button
                         type="button"
                         className="btn clear-btn"
@@ -178,7 +213,12 @@ export default function Profile() {
                             <p><strong>Email:</strong> {c.email}</p>
                             <p><strong>Phone:</strong> {c.phone}</p>
                             <p><strong>Type:</strong> {c.type}</p>
+                            <div style={{display: "flex" ,justifyContent: 'space-between'}}>
                             <button className='edit-btn' onClick={()=>Edit(c)} >Edit</button>
+                            <button className='del-btn' onClick = {()=>Delete(c)}>Delete</button>
+                            </div>
+                           
+
                         </div>
                     ))}
                 </div>

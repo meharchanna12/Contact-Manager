@@ -114,9 +114,9 @@ app.put('/profile/:id',authenticateToken,async (req,res)=>{
         if(!contact){
             return res.status(404).json({message:"Contact not found"});
         }
-        // if(contact.user.toString() !== req.user.id){
-        //     return res.status(403).json({message:"Unauthorized"});
-        // }
+        if(contact.user.toString() !== req.user.id){
+            return res.status(403).json({message:"Unauthorized"});
+        }
         contact.name = name;
         contact.email = email;
         contact.phone = phone;
@@ -130,6 +130,34 @@ app.put('/profile/:id',authenticateToken,async (req,res)=>{
         res.status(500).json({error:err.message});
     }
 })
+app.delete('/profile/:id', authenticateToken, async (req, res) => {
+    const { id } = req.params;
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(400).json({ message: "Invalid contact ID" });
+    }
+
+    try {
+        const contact = await Contact.findById(id);
+
+        if (!contact) {
+            return res.status(404).json({ message: "Contact not found" });
+        }
+
+        if (contact.user.toString() !== req.user.id) {
+            return res.status(403).json({ message: "Unauthorized" });
+        }
+
+        // Delete the document
+        await Contact.findByIdAndDelete(id);
+
+        res.status(200).json({ success: true, message: "Contact deleted" });
+    } catch (err) {
+        console.error("Error deleting contact:", err);
+        res.status(500).json({ success: false, error: err.message });
+    }
+});
+
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
 });
